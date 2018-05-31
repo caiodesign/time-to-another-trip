@@ -1,19 +1,45 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+const hostname = window.location.host;
+const year     = new Date().getFullYear();
 
 class App extends Component {
+
+  state = {
+    cities: undefined,
+    weather: undefined,
+    user: {
+      city: undefined,
+      weather: undefined,
+      day: undefined
+    }
+  }
+
+  componentWillMount () {
+
+  }
+
+  getCities = async (e, hostname) => {
+    const Cities =  await fetch(`${hostname}/cities`);
+    this.setState({
+      cities: Cities
+    })
+  }
+
+  getWeather = async (e, hostname) => {
+    const Weather = await fetch(`${hostname}/weather`);
+    this.setState({
+      weather: Weather
+    })
+  }
+
+  getCityDays = async (e, hostname, city, year) => {
+    return await fetch(`${hostname}/cities/${city}/year/${year}`);
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <div />
     );
   }
 }
