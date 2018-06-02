@@ -17,6 +17,7 @@ class App extends Component {
   state = {
     cities: undefined,
     weather: undefined,
+    filter: undefined,
     period: undefined,
     city: {
       weather: undefined
@@ -25,6 +26,7 @@ class App extends Component {
 
   componentDidMount () {
     this.getData(getEndpoint('cities'), 'cities');
+    this.getData(getEndpoint('weather'), 'weather');
   }
 
 
@@ -40,11 +42,6 @@ class App extends Component {
     catch(err) {
       return console.error(':( Something is wrong!', err);
     }
-  }
-
-  getCityWeather (city) {
-    const Weather = city.map( day => day.weather);
-    console.log(Weather);
   }
 
 
@@ -129,13 +126,13 @@ class App extends Component {
           getStateCities={this.state.cities} 
           getStateWeather={this.state.weather} 
           getUserCityData={this.getCityData.bind(this, getEndpoint('cities'))}
-          getUserCityWeather={this.getCityWeather.bind(this)}
         />
         {
           <div>
             {this.state.period && <p>Start: {this.state.period.start}</p>}
             {this.state.period && <p>End: {this.state.period.end}</p>}
             {this.state.period && <p>Counter: {this.state.period.counter}</p>}
+            
           </div>
         }
       </TimeToAnotherTrip>
