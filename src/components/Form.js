@@ -8,14 +8,14 @@ const Form = props => {
   return(
     <FormFields>
       <form onSubmit={props.getUserCityData}>
-        <select name="userCity">
+        <select name="userCity" onChange={props.getUserCityWeather}>
           {
             props.getStateCities && props.getStateCities.map( (item) => {
               return <option key={item.woeid} value={item.woeid}>{item.district}</option>
             })
           }
         </select>
-        <input type="number" placeholder="01" min="1" max="30"/>
+        <input required="required" type="number" name="userDays" placeholder="01" min="1" max="30"/>
         <select name="userWeather">
           {
             props.getStateWeather && props.getStateWeather.map( (item) => {

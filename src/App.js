@@ -7,12 +7,17 @@ const TimeToAnotherTrip = styled.div`
   
 `
 
+/*
+var tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+*/
+
 class App extends Component {
 
   state = {
     cities: undefined,
     weather: undefined,
-    filter: undefined,
+    period: undefined,
     city: {
       weather: undefined
     }
@@ -20,7 +25,6 @@ class App extends Component {
 
   componentDidMount () {
     this.getData(getEndpoint('cities'), 'cities');
-    this.getData(getEndpoint('weather'), 'weather');
   }
 
 
@@ -38,20 +42,33 @@ class App extends Component {
     }
   }
 
+  getCityWeather (city) {
+    const Weather = city.map( day => day.weather);
+    console.log(Weather);
+  }
+
+
   getCityData = async (hostname, e) => {
     e.preventDefault();
 
     const Year = new Date().getFullYear();
     const City = e.target.userCity.value;
     const Weather = e.target.userWeather.value;
+    const Days = Number(e.target.userDays.value);
 
     try { 
       const response =  await fetch(`${hostname + City}/year/${Year}`);
       const data = await response.json();
       const dataFiltered = await this.filterDataByWeather(data, Weather);
+      const bestPeriod = await this.filterByBestPeriod(dataFiltered, Days, new Date());
       
       return this.setState({
-        filter: dataFiltered
+        filter: dataFiltered,
+        period: {
+          start: bestPeriod.start.toString(),
+          end: bestPeriod.end.toString(),
+          counter: bestPeriod.finalCounter
+        }
       })
     }
     catch(err) {
@@ -64,6 +81,47 @@ class App extends Component {
   }
 
 
+  filterByBestPeriod (data, days, today) {
+
+    let filter = {
+      start: undefined,
+      end: undefined,
+      finalCounter: 0
+    }
+
+    for(let i = 0; i < data.length; i++){
+
+      let firstPeriodDay = new Date(`${data[i].date}`);
+      
+      if(firstPeriodDay > today){
+        let lastPeriodDay = new Date(firstPeriodDay);
+        let counter = 0;
+
+        lastPeriodDay = new Date(lastPeriodDay.setDate(lastPeriodDay.getDate() + days));
+
+        for(let t = i; t < data.length; t++){
+
+          let currentlyDate = new Date(data[t].date);
+          currentlyDate.setDate(currentlyDate.getDate() + 1);
+
+          if(currentlyDate <= lastPeriodDay){
+            counter++;
+          } else {
+            if(counter > filter.finalCounter){
+              filter.finalCounter = counter;
+              filter.start = firstPeriodDay;
+              filter.end = lastPeriodDay;
+            }
+          };
+
+        }
+      }
+    }
+
+    return filter;
+  } 
+
+
   render() {
     return (
       <TimeToAnotherTrip>
@@ -71,11 +129,14 @@ class App extends Component {
           getStateCities={this.state.cities} 
           getStateWeather={this.state.weather} 
           getUserCityData={this.getCityData.bind(this, getEndpoint('cities'))}
+          getUserCityWeather={this.getCityWeather.bind(this)}
         />
         {
-          this.state.filter && this.state.filter.map(item => {
-            return <div key={item.date}><p>{item.date} -> {item.weather}</p></div>
-          })
+          <div>
+            {this.state.period && <p>Start: {this.state.period.start}</p>}
+            {this.state.period && <p>End: {this.state.period.end}</p>}
+            {this.state.period && <p>Counter: {this.state.period.counter}</p>}
+          </div>
         }
       </TimeToAnotherTrip>
     );
