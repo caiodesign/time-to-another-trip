@@ -7,6 +7,7 @@
     status: 200
     headers:
       content-type: application/json
+      Access-Control-Allow-Origin: "*"
     file: ./data/cities.json
 
 - request:
@@ -16,6 +17,7 @@
     status: 200
     headers:
       content-type: application/json
+      Access-Control-Allow-Origin: "*"
     file: ./data/weather.json
 
 - request:
@@ -25,6 +27,7 @@
     status: 200
     headers:
       content-type: application/json
+      Access-Control-Allow-Origin: "*"
     file: ./data/<% url.1 %>.leap.json
 
 - request:
@@ -34,4 +37,5 @@
     status: 200
     headers:
       content-type: application/json
+      Access-Control-Allow-Origin: "*"
     file: ./data/<% url.1 %>.json
