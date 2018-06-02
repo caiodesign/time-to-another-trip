@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Form from './components/Form';
 import styled from 'styled-components';
+import Form from './components/Form';
+import getEndpoint from './environment/Endpoints';
 
 const TimeToAnotherTrip = styled.div`
   
@@ -11,23 +12,17 @@ class App extends Component {
   state = {
     cities: undefined,
     weather: undefined,
-    filter: undefined
+    filter: undefined,
+    city: {
+      weather: undefined
+    }
   }
 
   componentDidMount () {
-    this.getData(this.getEndpoint('cities'), 'cities');
-    this.getData(this.getEndpoint('weather'), 'weather');
+    this.getData(getEndpoint('cities'), 'cities');
+    this.getData(getEndpoint('weather'), 'weather');
   }
 
-  getEndpoint (location, hostname) {
-    const host = {
-      serverPort: 8882,
-      hostname: window.location.hostname,
-      cities: "/cities/",
-      weather: "/weather/"
-    }
-    return `http://${host.hostname}:${host.serverPort+host[location]}`;
-  }
 
   getData = async (hostname, location, e) => {
     try {
@@ -75,12 +70,11 @@ class App extends Component {
         <Form 
           getStateCities={this.state.cities} 
           getStateWeather={this.state.weather} 
-          getUserCityData={this.getCityData.bind(this, this.getEndpoint('cities'))}
+          getUserCityData={this.getCityData.bind(this, getEndpoint('cities'))}
         />
         {
           this.state.filter && this.state.filter.map(item => {
-            console.log(this.state);
-            return <div><p>{item.date} -> {item.weather}</p></div>
+            return <div key={item.date}><p>{item.date} -> {item.weather}</p></div>
           })
         }
       </TimeToAnotherTrip>
