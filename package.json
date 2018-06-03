@@ -14,6 +14,8 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "normalize.css": "^8.0.0",
+    "react-document-meta": "^3.0.0-beta.2",
     "styled-components": "^3.3.0"
   }
 }

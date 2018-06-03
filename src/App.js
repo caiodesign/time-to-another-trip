@@ -1,32 +1,45 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import DocumentMeta from 'react-document-meta';
+import Navbar from './components/Navbar';
 import Form from './components/Form';
 import getEndpoint from './environment/Endpoints';
 
+const meta = {
+  title: 'Time for Another Trip',
+  description: 'Do you know when Is the best time to take a vacation? Developed with React.',
+  meta: {
+    charset: 'utf-8',
+    name: {
+      keywords: 'react,app,time,another,trip'
+    }
+  }
+};
+
 const TimeToAnotherTrip = styled.div`
-  
+  @import url('https://fonts.googleapis.com/css?family=Sunflower:300,500,700');
+  font-family: 'Sunflower', sans-serif;
+  font-weight: lighter;
 `
 
-/*
-var tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
-*/
-
 class App extends Component {
-
+  
   state = {
     cities: undefined,
     weather: undefined,
-    filter: undefined,
-    period: undefined,
+    period: {
+      start: undefined,
+      end: undefined,
+      counter: undefined
+    },
     city: {
       weather: undefined
     }
-  }
+  };
 
   componentDidMount () {
+    document.title = "Time For Another Trip!"
     this.getData(getEndpoint('cities'), 'cities');
-    this.getData(getEndpoint('weather'), 'weather');
   }
 
 
@@ -44,26 +57,57 @@ class App extends Component {
     }
   }
 
+  getCityWeather = async (e) => {
+    const City = e.target.value;
+    const Year = new Date().getFullYear();
+    
+    if(City){
+      try { 
+        const response =  await fetch(`${getEndpoint('cities') + City}/year/${Year}`);
+        const data = await response.json();
+        const Weather = [...(new Set(data.map( day => day.weather)))];
+      
+        this.setState({
+          city: {
+            weather: Weather
+          }
+        })
+      }
+      catch (err) {
+        return console.error(':( Something is wrong!', err);
+      }
+    } else {
+      this.setState({
+        city: {
+          weather: undefined
+        }
+      })
+    }
+  }
+
 
   getCityData = async (hostname, e) => {
     e.preventDefault();
 
-    const Year = new Date().getFullYear();
-    const City = e.target.userCity.value;
-    const Weather = e.target.userWeather.value;
-    const Days = Number(e.target.userDays.value);
+    const Form = {
+      year: new Date().getFullYear(),
+      city: e.target.userCity.value,
+      weather: e.target.userWeather.value,
+      days: Number(e.target.userDays.value)
+    }
 
     try { 
-      const response =  await fetch(`${hostname + City}/year/${Year}`);
+      const response =  await fetch(`${hostname + Form.city}/year/${Form.year}`);
       const data = await response.json();
-      const dataFiltered = await this.filterDataByWeather(data, Weather);
-      const bestPeriod = await this.filterByBestPeriod(dataFiltered, Days, new Date());
+      const dataFiltered = await this.filterDataByWeather(data, Form.weather);
+      const bestPeriod = await this.filterByBestPeriod(dataFiltered, Form.days, new Date());
       
-      return this.setState({
+      this.setState({
         filter: dataFiltered,
         period: {
-          start: bestPeriod.start.toString(),
-          end: bestPeriod.end.toString(),
+          weather: Form.weather,
+          start: bestPeriod.start.toDateString(),
+          end: bestPeriod.end.toDateString(),
           counter: bestPeriod.finalCounter
         }
       })
@@ -106,8 +150,8 @@ class App extends Component {
           } else {
             if(counter > filter.finalCounter){
               filter.finalCounter = counter;
-              filter.start = firstPeriodDay;
-              filter.end = lastPeriodDay;
+              filter.start = firstPeriodDay;;
+              filter.end = lastPeriodDay;;
             }
           };
 
@@ -118,23 +162,29 @@ class App extends Component {
     return filter;
   } 
 
+  refreshApplication () {
+    this.setState({
+      period: {
+        start: undefined,
+        end: undefined,
+        counter: undefined
+      }
+    });
+  }
 
   render() {
     return (
       <TimeToAnotherTrip>
+        <DocumentMeta {...meta} />
+        <Navbar />
         <Form 
-          getStateCities={this.state.cities} 
-          getStateWeather={this.state.weather} 
-          getUserCityData={this.getCityData.bind(this, getEndpoint('cities'))}
+            getStateCities={this.state.cities} 
+            getStateWeather={this.state.city.weather} 
+            getUserCityData={this.getCityData.bind(this, getEndpoint('cities'))}
+            getUserCityWeather={this.getCityWeather.bind(this)}
+            getPeriod={this.state.period}
+            refreshState={this.refreshApplication.bind(this)}
         />
-        {
-          <div>
-            {this.state.period && <p>Start: {this.state.period.start}</p>}
-            {this.state.period && <p>End: {this.state.period.end}</p>}
-            {this.state.period && <p>Counter: {this.state.period.counter}</p>}
-            
-          </div>
-        }
       </TimeToAnotherTrip>
     );
   }
