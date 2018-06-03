@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Color from '../utils/Colors';
 import Breakpoint from '../utils/Breakpoints';
+import getEndpoint from '../environment/Endpoints';
 
 /**
  * Styled Components Constants
@@ -13,7 +14,8 @@ const Inputs = `
   outline: none;
   padding: 5px 10px;
   background-color: rgba(255, 255, 255, 0.1);
-  font-size: 40px;
+  line-height: 1.5em;
+  font-size: 32px;
   border: none;
   border-bottom: 1px solid ${Color.white};
   width: 100%;
@@ -54,7 +56,7 @@ const Button = styled.button`
   background-color: rgba(255,255,255, 0.1);
   outline: none;
   color: ${Color.white};
-  padding: 10px 20px;
+  padding: 10px 26px;
   border: 1px solid ${Color.white};
   transition: linear all .2s;
   font-size: 20px;
@@ -66,22 +68,35 @@ const Button = styled.button`
 
 const Card = styled.div`
   position: relative;
+  .hidden{
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: linear all .2s;
+  }
+  .active{
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+    transition: linear all .2s;
+  }
 `
 
 const CardBackground = styled.div`
   width: 100%;
   height: 100vh;
-  background-size: cover;
+  background-size: cover !important;
   background-position: center;
   position: relative;
   background: ${Color.green};
   transition: linear all .3;
+  background-repeat: no-repeat;
   &:after{
     position: absolute;
     content: "";
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0,0,0, 0.6);
+    background-color: rgba(0,0,0, 0.7);
     z-index: 1;
   }
 `
@@ -133,32 +148,37 @@ class Form extends React.Component {
   }
 
   componentDidMount () {
-    this.getUnsplashPhoto();
+    this.getBackgroundPhoto(getEndpoint('backgrounds'), 'backgrounds');
   }
   
-  /**
-   * Unsplash API DATA
-   */
-  getUnsplashPhoto = async () => {
-    const client_id = "b9d51ca959ffb3a96f84db4f7e44ba0232a79b966109ff1c0e010cc51dc40aca";
-    const query = "nature";
-    const Endpoint = `https://api.unsplash.com/search/photos?query=${query}&client_id=${client_id}`
-    const getData = await fetch(Endpoint);
-    const getJson = await getData.json();
-    const photos = await getJson.results.map(item => {
-      return item.urls.full
-    })
-    const photo = await photos[photos.length * Math.random() << 0];
+  getBackgroundPhoto = async (hostname, location) => {
     
+    try {
+      const response =  await fetch(hostname);
+      const data = await response.json();
+      const photos = await data.map( bg => bg.url);
+      const photo = await photos[photos.length * Math.random() << 0];
+
+      return this.setState({
+        background: photo
+      });
+    }
+    catch(err) {
+      return console.error(':( Something is wrong!', err);
+    }
+  
+  }
+
+  setWeather (e) {
     this.setState({
-      background: photo
-    });
+      weatherValidate: e.target.value
+    })
   }
 
   render(){
     return(
       <Card>
-        <CardBackground style={{background:  `url(${this.state.background})` }}>
+        <CardBackground style={{backgroundImage:  `url(${this.state.background})` }}>
           <CardForm style={{display: !this.props.getPeriod.start ? 'block' : 'none' }}>
             <form onSubmit={this.props.getUserCityData}>
                 <CardRow>
@@ -173,9 +193,10 @@ class Form extends React.Component {
                   </Select>
                 </CardRow>
   
-                <CardRow>
+                <CardRow className={this.props.getStateWeather ? "active" : "hidden"}>
                   <Label>What kind of weather do you like?</Label>
-                  <Select required name="userWeather">
+                  <Select defaultValue={false} required name="userWeather" onChange={this.setWeather.bind(this)}>
+                  <option value={false} disabled={true}>Choose weather</option>
                     {
                       this.props.getStateWeather && this.props.getStateWeather.map( (item) => {
                         return <option key={item}>{item}</option>
@@ -184,13 +205,13 @@ class Form extends React.Component {
                   </Select>
                 </CardRow>
   
-                <CardRow>
+                <CardRow className={this.state.weatherValidate ? "active" : "hidden"}>
                   <Label>How many days?</Label>
-                  <Input required type="number" name="userDays" min="1" max="30"/>
+                  <Input required type="number" name="userDays" min="1" max="30" defaultValue="1"/>
                 </CardRow>
   
-                <FormSubmit>
-                  <Button type="submit">Buscar</Button>
+                <FormSubmit className={this.state.weatherValidate ? "active" : "hidden"}>
+                  <Button type="submit">Search</Button>
                 </FormSubmit>
   
               </form>
@@ -198,7 +219,7 @@ class Form extends React.Component {
           <CardResult style={{display: this.props.getPeriod.start ? 'block' : 'none' }}>
             {this.props.getPeriod.start && <p><span>Start:</span> {this.props.getPeriod.start}</p>}
             {this.props.getPeriod.end && <p><span>End:</span> {this.props.getPeriod.end}</p>}
-            {this.props.getPeriod.counter && <p><span>{this.props.getPeriod.weather} days counter:</span> {this.props.getPeriod.counter}</p>}
+            {this.props.getPeriod.counter && <p><span>{this.props.getPeriod.weather} days:</span> {this.props.getPeriod.counter}</p>}
             <Button onClick={this.props.refreshState}>Search Again</Button>
           </CardResult>
         </CardBackground>

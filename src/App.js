@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import DocumentMeta from 'react-document-meta';
+import Logo from './logo-ttat-web.png';
 import Navbar from './components/Navbar';
 import Form from './components/Form';
 import getEndpoint from './environment/Endpoints';
@@ -17,9 +18,8 @@ const meta = {
 };
 
 const TimeToAnotherTrip = styled.div`
-  @import url('https://fonts.googleapis.com/css?family=Sunflower:300,500,700');
-  font-family: 'Sunflower', sans-serif;
-  font-weight: lighter;
+  @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+  font-family: 'Open Sans', sans-serif;
 `
 
 class App extends Component {
@@ -176,7 +176,7 @@ class App extends Component {
     return (
       <TimeToAnotherTrip>
         <DocumentMeta {...meta} />
-        <Navbar />
+        <Navbar getLogo={Logo} getLogoAlt={`Time to Another Trip logo`} />
         <Form 
             getStateCities={this.state.cities} 
             getStateWeather={this.state.city.weather} 

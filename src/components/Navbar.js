@@ -16,19 +16,23 @@ const Logo = styled.div`
     @media(min-width: ${Breakpoint.desktop}){
         text-align: left;
         margin: 0 0 0 100px;
-        width: 350px;
+        width: 270px;
+    }
+    a{
+        display: block;
+        text-decoration: none;
     }
     img{
         width: 100%;
     }
 `
 
-const Navbar = () => {
+const Navbar = props => {
     return(
         <Nav>
             <Logo>
                 <a href="!">
-                    <img src="http://via.placeholder.com/350x65" alt="Time To Another Trip logo"/>
+                    <img src={props.getLogo} alt={props.getLogoAlt} />
                 </a>
             </Logo>
         </Nav>

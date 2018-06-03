@@ -3,7 +3,8 @@ const getEndpoint = (location, hostname) =>{
     serverPort: 8882,
     hostname: window.location.hostname,
     cities: "/cities/",
-    weather: "/weather/"
+    weather: "/weather/",
+    backgrounds: "/backgrounds/"
   }
   return `http://${host.hostname}:${host.serverPort+host[location]}`;
 }

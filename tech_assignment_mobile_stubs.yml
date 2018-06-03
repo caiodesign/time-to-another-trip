@@ -11,6 +11,16 @@
     file: ./data/cities.json
 
 - request:
+    url: ^/backgrounds/
+    method: GET
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    file: ./data/backgrounds.json
+
+- request:
     url: ^/weather/
     method: GET
   response:
