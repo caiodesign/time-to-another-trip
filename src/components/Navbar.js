@@ -31,7 +31,7 @@ const Navbar = props => {
     return(
         <Nav>
             <Logo>
-                <a href="javascript:void(0)">
+                <a href={window.location.href}>
                     <img src="/logo.png" alt={props.getLogoAlt} />
                 </a>
             </Logo>
