@@ -43,7 +43,7 @@ Open a new terminal, access the project folder again and run:
 ```
 npm start
 ```
-The script will create a server and compile the files and serve in (http://localhost:3000)[http://localhost:3000]
+The script will create a server and compile the files and serve in [localhost:3000](http://localhost:3000)
 
 
 ## Others available scripts
