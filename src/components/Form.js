@@ -179,7 +179,7 @@ class Form extends React.Component {
     return(
       <Card>
         <CardBackground style={{backgroundImage:  `url(${this.state.background})` }}>
-          <CardForm style={{display: !this.props.getPeriod.start ? 'block' : 'none' }}>
+          <CardForm  className={!this.props.getPeriod.start ? "active" : "hidden"}>
             <form onSubmit={this.props.getUserCityData}>
                 <CardRow>
                   <Label>Where do you want to go?</Label>
@@ -216,7 +216,7 @@ class Form extends React.Component {
   
               </form>
           </CardForm>
-          <CardResult style={{display: this.props.getPeriod.start ? 'block' : 'none' }}>
+          <CardResult className={this.props.getPeriod.start ? "active" : "hidden"}>
             {this.props.getPeriod.start && <p><span>Start:</span> {this.props.getPeriod.start}</p>}
             {this.props.getPeriod.end && <p><span>End:</span> {this.props.getPeriod.end}</p>}
             {this.props.getPeriod.counter && <p><span>{this.props.getPeriod.weather} days:</span> {this.props.getPeriod.counter}</p>}

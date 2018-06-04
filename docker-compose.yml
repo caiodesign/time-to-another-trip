@@ -1,0 +1,11 @@
+version: '2'
+services:
+    java-node:
+        image: timbru31/java-node
+        container_name: java-ttat
+        restart: always
+        volumes:
+            - "./public:/var/www/html"
+            - "./etc/package.json:/var/www/html/public/package.json"
+            - "./etc/tech_assignment_mobile_stubs.yml:/var/www/html/public/tech_assignment_mobile_stubs.yml"
+            - "./etc/stubby4j-6.0.1.zip:/var/www/html/public/stubby4j-6.0.1.zip"

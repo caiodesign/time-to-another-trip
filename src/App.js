@@ -8,7 +8,7 @@ import getEndpoint from './environment/Endpoints';
 
 const meta = {
   title: 'Time for Another Trip',
-  description: 'Do you know when Is the best time to take a vacation? Developed with React.',
+  description: 'Do you know when is the best time to take a vacation? Developed with React.',
   meta: {
     charset: 'utf-8',
     name: {
@@ -38,7 +38,6 @@ class App extends Component {
   };
 
   componentDidMount () {
-    document.title = "Time For Another Trip!"
     this.getData(getEndpoint('cities'), 'cities');
   }
 
