@@ -32,7 +32,7 @@ const Navbar = props => {
         <Nav>
             <Logo>
                 <a href="!">
-                    <img src={props.getLogo} alt={props.getLogoAlt} />
+                    <img src="/logo.png" alt={props.getLogoAlt} />
                 </a>
             </Logo>
         </Nav>

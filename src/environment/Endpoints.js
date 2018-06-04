@@ -1,7 +1,9 @@
-const getEndpoint = (location, hostname) =>{
+const getEndpoint = (location, url) =>{
+
+
   const host = {
     serverPort: 8882,
-    hostname: window.location.hostname,
+    hostname: url || window.location.hostname,
     cities: "/cities/",
     weather: "/weather/",
     backgrounds: "/backgrounds/"

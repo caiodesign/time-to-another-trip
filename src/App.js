@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import 'babel-polyfill';
 import styled from 'styled-components';
 import DocumentMeta from 'react-document-meta';
-import Logo from './logo-ttat-web.png';
 import Navbar from './components/Navbar';
 import Form from './components/Form';
 import getEndpoint from './environment/Endpoints';
@@ -42,7 +42,7 @@ class App extends Component {
   }
 
 
-  getData = async (hostname, location, e) => {
+  getData = async (hostname, location) => {
     try {
       const response =  await fetch(hostname);
       const data = await response.json();
@@ -175,7 +175,7 @@ class App extends Component {
     return (
       <TimeToAnotherTrip>
         <DocumentMeta {...meta} />
-        <Navbar getLogo={Logo} getLogoAlt={`Time to Another Trip logo`} />
+        <Navbar getLogoAlt={`Time to Another Trip logo`} />
         <Form 
             getStateCities={this.state.cities} 
             getStateWeather={this.state.city.weather} 
