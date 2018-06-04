@@ -136,8 +136,6 @@ class App extends Component {
         lastPeriodDay = new Date(lastPeriodDay.setDate(lastPeriodDay.getDate() + days));
 
         for(let t = i; t < data.length; t++){
-          console.log(counter);
-
           if(Day <= lastPeriodDay && counter < days){
             counter++;
             if(counter > filter.finalCounter){
