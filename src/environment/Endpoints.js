@@ -3,7 +3,7 @@ const getEndpoint = (location, url) =>{
 
   const backendHost = () => {
     if(getHostname === 'caiodesign.github.io') {
-      return 'http://localhost:8882';
+      return 'https://time-for-another-trip-endpoint.herokuapp.com';
     } else {
       return 'http://localhost:8882';
     }
