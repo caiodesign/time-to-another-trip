@@ -1,11 +1,13 @@
 import { expect } from 'chai';
-import App from './App';
+import App from '../src/App';
+
+const AppClass = new App;
 
 describe('Time to Another Trip', () => {
 
     describe('smoke tests', () => {
-      it('should exist the getData method', () => {
-        expect(App.getData).to.exist;
+      it('should exist the App class', () => {
+        expect(AppClass).to.exist;
       });
     });
   
