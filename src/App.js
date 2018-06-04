@@ -5,6 +5,7 @@ import DocumentMeta from 'react-document-meta';
 import Navbar from './components/Navbar';
 import Form from './components/Form';
 import getEndpoint from './environment/Endpoints';
+import Preloader from './components/Preloader';
 
 const meta = {
   title: 'Time for Another Trip',
@@ -100,7 +101,7 @@ class App extends Component {
       const data = await response.json();
       const dataFiltered = await this.filterDataByWeather(data, Form.weather);
       const bestPeriod = await this.filterByBestPeriod(dataFiltered, Form.days, new Date());
-      
+
       this.setState({
         filter: dataFiltered,
         period: {
@@ -123,38 +124,28 @@ class App extends Component {
 
   filterByBestPeriod (data, days, today) {
 
-    let filter = {
-      start: undefined,
-      end: undefined,
-      finalCounter: 0
-    }
+    let filter = {finalCounter: 0}
 
     for(let i = 0; i < data.length; i++){
+      let Day = new Date(`${data[i].date}`);
+      Day.setDate(Day.getDate() + 1);
 
-      let firstPeriodDay = new Date(`${data[i].date}`);
-      
-      if(firstPeriodDay > today){
-        let lastPeriodDay = new Date(firstPeriodDay);
+      if(Day > today){
         let counter = 0;
-
+        let lastPeriodDay = new Date(Day);
         lastPeriodDay = new Date(lastPeriodDay.setDate(lastPeriodDay.getDate() + days));
 
         for(let t = i; t < data.length; t++){
-
-          let currentlyDate = new Date(data[t].date);
-          currentlyDate.setDate(currentlyDate.getDate() + 1);
-
-          if(currentlyDate <= lastPeriodDay){
+          if(Day <= lastPeriodDay){
             counter++;
-          } else {
             if(counter > filter.finalCounter){
               filter.finalCounter = counter;
-              filter.start = firstPeriodDay;;
+              filter.start = Day;;
               filter.end = lastPeriodDay;;
             }
-          };
-
+          }
         }
+        
       }
     }
 
@@ -175,6 +166,7 @@ class App extends Component {
     return (
       <TimeToAnotherTrip>
         <DocumentMeta {...meta} />
+        <Preloader />
         <Navbar getLogoAlt={`Time to Another Trip logo`} />
         <Form 
             getStateCities={this.state.cities} 
