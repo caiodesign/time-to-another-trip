@@ -1,14 +1,21 @@
 const getEndpoint = (location, url) =>{
+  const getHostname = window && window.location && window.location.hostname;
 
+  const backendHost = () => {
+    if(getHostname === 'caiodesign.github.io') {
+      return 'https://time-for-another-trip-endpoint.herokuapp.com';
+    } else {
+      return 'http://localhost:8882';
+    }
+  }
 
   const host = {
-    serverPort: 8882,
-    hostname: url || window.location.hostname,
+    hostname: url || backendHost(),
     cities: "/cities/",
     weather: "/weather/",
     backgrounds: "/backgrounds/"
   }
-  return `http://${host.hostname}:${host.serverPort+host[location]}`;
+  return `${host.hostname + host[location]}`;
 }
 
 export default getEndpoint;
