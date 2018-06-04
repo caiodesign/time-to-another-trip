@@ -1,5 +1,10 @@
 # Time to Another Trip
 
+Do you know when is the best time to take a vacation? 
+
+[Live Demo](https://caiodesign.github.io/time-to-another-trip/).
+
+
 ## Prerequisites
 
 ```
@@ -29,7 +34,7 @@ sudo npm install
 
 
 Extract the `stubby4j-6.0.1.zip` file into root project folder and execute the command:
-````
+```
 java -jar stubby4j-6.0.1.jar -d tech_assignment_mobile_stubs.yml
 ```
 
@@ -38,7 +43,7 @@ Open a new terminal, access the project folder again and run:
 ```
 npm start
 ```
-The script will create a server and compile the files and serve in `http://localhost:3000`
+The script will create a server and compile the files and serve in (http://localhost:3000)[http://localhost:3000]
 
 
 ## Others available scripts
@@ -54,5 +59,10 @@ Use `test` to run the TDD.
 ```
 npm test
 ```
+
+## License
+This project is licensed under the MIT License.
+
+
 
 
