@@ -129,26 +129,29 @@ class App extends Component {
     for(let i = 0; i < data.length; i++){
       let Day = new Date(`${data[i].date}`);
       Day.setDate(Day.getDate() + 1);
+      let counter = 0;
 
       if(Day > today){
-        let counter = 0;
         let lastPeriodDay = new Date(Day);
         lastPeriodDay = new Date(lastPeriodDay.setDate(lastPeriodDay.getDate() + days));
 
         for(let t = i; t < data.length; t++){
-          if(Day <= lastPeriodDay){
+          console.log(counter);
+
+          if(Day <= lastPeriodDay && counter < days){
             counter++;
             if(counter > filter.finalCounter){
               filter.finalCounter = counter;
-              filter.start = Day;;
+              filter.start = Day;
               filter.end = lastPeriodDay;;
             }
+          } else {
+            return filter;
           }
+
         }
-        
       }
     }
-
     return filter;
   } 
 
