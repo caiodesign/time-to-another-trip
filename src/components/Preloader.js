@@ -67,22 +67,9 @@ const Spinner = styled.div`
 `
 
 class Preloader extends React.Component {
-
-  state = {
-    loading: true
-  }
-
-  componentWillMount(){
-    setTimeout(() => {
-      this.setState({
-        loading: false
-      })
-    }, 2000)
-  }
-
     render () {
       return(
-        <Overlay className={this.state.loading ? 'active' : 'hidden'}>
+        <Overlay className={!this.props.stopLoader ? 'active' : 'hidden'}>
           <Spinner>
             <div className="double-bounce1"></div>
             <div className="double-bounce2"></div>

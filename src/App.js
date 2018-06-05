@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import 'babel-polyfill';
 import styled from 'styled-components';
 import DocumentMeta from 'react-document-meta';
+import getEndpoint from './environment/Endpoints';
 import Navbar from './components/Navbar';
 import Form from './components/Form';
-import getEndpoint from './environment/Endpoints';
+import Background from './components/Background';
 import Preloader from './components/Preloader';
 
 const meta = {
@@ -35,7 +35,8 @@ class App extends Component {
     },
     city: {
       weather: undefined
-    }
+    },
+    loaded: false,
   };
 
   componentDidMount () {
@@ -85,7 +86,6 @@ class App extends Component {
     }
   }
 
-
   getCityData = async (hostname, e) => {
     e.preventDefault();
 
@@ -101,7 +101,7 @@ class App extends Component {
       const data = await response.json();
       const dataFiltered = await this.filterDataByWeather(data, Form.weather);
       const bestPeriod = await this.filterByBestPeriod(dataFiltered, Form.days, new Date());
-
+      
       this.setState({
         filter: dataFiltered,
         period: {
@@ -121,35 +121,43 @@ class App extends Component {
     return data.filter( date => date.weather === weather);
   }
 
-
   filterByBestPeriod (data, days, today) {
 
-    let filter = {finalCounter: 0}
+    let filter = {
+      start: undefined,
+      end: undefined,
+      finalCounter: 0
+    }
 
     for(let i = 0; i < data.length; i++){
-      let Day = new Date(`${data[i].date}`);
-      Day.setDate(Day.getDate() + 1);
-      let counter = 0;
 
-      if(Day > today){
-        let lastPeriodDay = new Date(Day);
+      let firstPeriodDay = new Date(`${data[i].date}`);
+      
+      if(firstPeriodDay > today){
+        let lastPeriodDay = new Date(firstPeriodDay);
+        let counter = 0;
+
         lastPeriodDay = new Date(lastPeriodDay.setDate(lastPeriodDay.getDate() + days));
 
         for(let t = i; t < data.length; t++){
-          if(Day <= lastPeriodDay && counter < days){
+
+          let currentlyDate = new Date(data[t].date);
+          currentlyDate.setDate(currentlyDate.getDate() + 1);
+
+          if(currentlyDate <= lastPeriodDay){
             counter++;
+          } else {
             if(counter > filter.finalCounter){
               filter.finalCounter = counter;
-              filter.start = Day;
+              filter.start = firstPeriodDay;;
               filter.end = lastPeriodDay;;
             }
-          } else {
-            return filter;
-          }
+          };
 
         }
       }
     }
+
     return filter;
   } 
 
@@ -163,20 +171,26 @@ class App extends Component {
     });
   }
 
+  stopPreloader(){
+    console.log('YEH');
+    return this.setState({loaded: true});
+  }
+
   render() {
     return (
       <TimeToAnotherTrip>
         <DocumentMeta {...meta} />
-        <Preloader />
-        <Navbar getLogoAlt={`Time to Another Trip logo`} />
-        <Form 
-            getStateCities={this.state.cities} 
-            getStateWeather={this.state.city.weather} 
-            getUserCityData={this.getCityData.bind(this, getEndpoint('cities'))}
-            getUserCityWeather={this.getCityWeather.bind(this)}
-            getPeriod={this.state.period}
-            refreshState={this.refreshApplication.bind(this)}
-        />
+        <Preloader stopLoader={this.state.loaded} />
+        <Background isLoaded={this.stopPreloader.bind(this)} />
+          <Navbar getLogoAlt={`Time to Another Trip logo`} />
+          <Form 
+              getStateCities={this.state.cities} 
+              getStateWeather={this.state.city.weather} 
+              getUserCityData={this.getCityData.bind(this, getEndpoint('cities'))}
+              getUserCityWeather={this.getCityWeather.bind(this)}
+              getPeriod={this.state.period}
+              refreshState={this.refreshApplication.bind(this)}
+          />
       </TimeToAnotherTrip>
     );
   }

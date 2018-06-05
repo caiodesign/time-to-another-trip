@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Color from '../utils/Colors';
 import Breakpoint from '../utils/Breakpoints';
-import getEndpoint from '../environment/Endpoints';
 
 /**
  * Styled Components Constants
@@ -83,22 +82,8 @@ const Card = styled.div`
 `
 
 const CardBackground = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
-  background-size: cover !important;
-  background-position: center;
-  position: relative;
-  background: ${Color.green};
-  transition: linear all .3;
-  background-repeat: no-repeat;
-  &:after{
-    position: absolute;
-    content: "";
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0,0,0, 0.7);
-    z-index: 1;
-  }
 `
 
 const CardForm = styled.div`
@@ -142,33 +127,11 @@ const FormSubmit = styled.div`
  */
 
 class Form extends React.Component {
-  
+
   state = {
-    background: undefined
-  }
-
-  componentDidMount () {
-    this.getBackgroundPhoto(getEndpoint('backgrounds'), 'backgrounds');
+    weatherValidate: undefined
   }
   
-  getBackgroundPhoto = async (hostname, location) => {
-    
-    try {
-      const response =  await fetch(hostname);
-      const data = await response.json();
-      const photos = await data.map( bg => bg.url);
-      const photo = await photos[photos.length * Math.random() << 0];
-
-      return this.setState({
-        background: photo
-      });
-    }
-    catch(err) {
-      return console.error(':( Something is wrong!', err);
-    }
-  
-  }
-
   setWeather (e) {
     this.setState({
       weatherValidate: e.target.value
@@ -178,7 +141,7 @@ class Form extends React.Component {
   render(){
     return(
       <Card>
-        <CardBackground style={{backgroundImage:  `url(${this.state.background})` }}>
+        <CardBackground>
           <CardForm  className={!this.props.getPeriod.start ? "active" : "hidden"}>
             <form onSubmit={this.props.getUserCityData}>
                 <CardRow>
