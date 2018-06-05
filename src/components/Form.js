@@ -13,8 +13,8 @@ const Inputs = `
   outline: none;
   padding: 5px 10px;
   background-color: rgba(255, 255, 255, 0.1);
-  line-height: 1.5em;
-  font-size: 32px;
+  line-height: 1.2em;
+  font-size: 26px;
   border: none;
   border-bottom: 1px solid ${Color.white};
   width: 100%;
@@ -99,7 +99,7 @@ const CardForm = styled.div`
 `
 
 const CardRow = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `
 
 const CardResult = CardForm.extend`
@@ -170,7 +170,7 @@ class Form extends React.Component {
   
                 <CardRow className={this.state.weatherValidate ? "active" : "hidden"}>
                   <Label>How many days?</Label>
-                  <Input required type="number" name="userDays" min="1" max="30" defaultValue="1"/>
+                  <Input required type="number" name="userDays" min="1" max="90" defaultValue="1"/>
                 </CardRow>
   
                 <FormSubmit className={this.state.weatherValidate ? "active" : "hidden"}>
