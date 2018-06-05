@@ -17,7 +17,7 @@ Npm 5.3 +
 ### Installing
 
 Clone or download de project to your system.
-```
+```git
 git clone https://github.com/caiodesign/time-to-another-trip.git
 ```
 
@@ -42,7 +42,7 @@ java -jar stubby4j-6.0.1.jar -d tech_assignment_mobile_stubs.yml
 ### OBS: 
 If you have problems to execute the command above, you can change `backendHost` constant value in `/src/environment/Endpoint.js` to start consuming the production endpoint:
 
-```
+```javascript
 /** 
   * CHANGE HERE IF YOU HAVE PROBLEMS TO CREATE YOUR OWN JAVA SERVER!
   * DELETE THE BACKENDHOST CONST AND UNCOMMENT THE CODE BELLOW!
@@ -83,7 +83,3 @@ npm test
 
 ## License
 This project is licensed under the MIT License.
-
-
-
-
