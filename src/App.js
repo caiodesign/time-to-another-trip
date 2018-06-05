@@ -123,41 +123,34 @@ class App extends Component {
 
   filterByBestPeriod (data, days, today) {
 
-    let filter = {
-      start: undefined,
-      end: undefined,
-      finalCounter: 0
-    }
+    let filter = {finalCounter: 0}
 
     for(let i = 0; i < data.length; i++){
+      let Day = new Date(`${data[i].date}`);
+      Day.setDate(Day.getDate() + 1);
+      let counter = 0;
 
-      let firstPeriodDay = new Date(`${data[i].date}`);
-      
-      if(firstPeriodDay > today){
-        let lastPeriodDay = new Date(firstPeriodDay);
-        let counter = 0;
-
+      if(Day > today){
+        let lastPeriodDay = new Date(Day);
         lastPeriodDay = new Date(lastPeriodDay.setDate(lastPeriodDay.getDate() + days));
 
         for(let t = i; t < data.length; t++){
+          console.log(counter);
 
-          let currentlyDate = new Date(data[t].date);
-          currentlyDate.setDate(currentlyDate.getDate() + 1);
-
-          if(currentlyDate <= lastPeriodDay){
+          if(Day <= lastPeriodDay && counter < days){
             counter++;
-          } else {
             if(counter > filter.finalCounter){
               filter.finalCounter = counter;
-              filter.start = firstPeriodDay;;
+              filter.start = Day;
               filter.end = lastPeriodDay;;
             }
-          };
+          } else {
+            return filter;
+          }
 
         }
       }
     }
-
     return filter;
   } 
 
@@ -172,7 +165,6 @@ class App extends Component {
   }
 
   stopPreloader(){
-    console.log('YEH');
     return this.setState({loaded: true});
   }
 
