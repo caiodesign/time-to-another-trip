@@ -14,7 +14,7 @@ Do you know when is the best time to take a vacation?
 
 
 ## Installing
-You have 2 ways to install this project in your system, the easy way and the "not so bad way".
+You have 2 ways to install this project in your system, the easy way and the "not so bad" way.
 
 ### Easy way (Docker):
 
@@ -38,7 +38,7 @@ Voilà!
 
 Access the project folder via terminal and run:
 ```
-npm install
+$ npm install
 ```
 
 If you have problems to install the project dependecies, try using `sudo` (MAC/LINUX):
@@ -50,7 +50,7 @@ $ sudo npm install
 
 Extract the `stubby4j-6.0.1.zip` file into root project folder and execute the command:
 ```
-java -jar stubby4j-6.0.1.jar -d tech_assignment_mobile_stubs.yml
+$ java -jar stubby4j-6.0.1.jar -d tech_assignment_mobile_stubs.yml
 ```
 
 ### OBS: 
@@ -76,7 +76,7 @@ If you have problems to execute the command above, you can change `backendHost` 
 
 Open a new terminal, access the project folder again and run:
 ```
-npm start
+$ npm start
 ```
 The script will compile the files and serve on [localhost:3000](http://localhost:3000)
 
@@ -86,13 +86,13 @@ The script will compile the files and serve on [localhost:3000](http://localhost
 Use `build` to deploy your static files in `build` folder.
 
 ```
-npm run build
+$ npm run build
 ```
 
 Use `test` to run the tests.
 
 ```
-npm test
+$ npm test
 ```
 
 ## License
