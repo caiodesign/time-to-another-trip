@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+
+  timefat:
+    container_name: time-for-another-trip
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+  stubby4j:
+    container_name: stubby4j
+    build: ./stubby4j
+    volumes:
+      - './stubby4j/tech_assignment_mobile_stubs.yml:/data/tech_assignment_mobile_stubs.yml'
+    ports:
+      - '8882:8882'
+    environment:
+      - STUBBY_PORT=8882
