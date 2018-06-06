@@ -8,19 +8,33 @@ Do you know when is the best time to take a vacation?
 
 ### Prerequisites
 
-```
-Java 8 +
-Node 8.4 +
-Npm 5.3 +
-```
+- [NodeJS 8+](https://nodejs.org/en/)
+- [Java JDK 8](http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk8-downloads-2133151.html)
+- [Docker](https://docs.docker.com/compose/install/)
 
-### Installing
+
+## Installing
+You have 2 ways to install this project in your system, the easy way and the "not so bad way".
+
+### Easy way (Docker):
 
 Clone or download de project to your system.
-```git
-git clone https://github.com/caiodesign/time-to-another-trip.git
+```
+$ git clone https://github.com/caiodesign/time-to-another-trip.git
 ```
 
+Access the project folder via terminal and run:
+```
+$ docker-compose up --build
+```
+
+The docker will download all dependencies of the project and execute everything to you.
+When is finished, all you have to do is open your favorite browser and access `http://localhost:3000`.
+
+Voilà! 
+
+
+### Not so bad way (manually):
 
 Access the project folder via terminal and run:
 ```
@@ -29,7 +43,7 @@ npm install
 
 If you have problems to install the project dependecies, try using `sudo` (MAC/LINUX):
 ```
-sudo npm install
+$ sudo npm install
 ```
 
 ## Running
@@ -64,7 +78,7 @@ Open a new terminal, access the project folder again and run:
 ```
 npm start
 ```
-The script will create a server, compile the files and serve on [localhost:3000](http://localhost:3000)
+The script will compile the files and serve on [localhost:3000](http://localhost:3000)
 
 
 ## Others available scripts
@@ -75,7 +89,7 @@ Use `build` to deploy your static files in `build` folder.
 npm run build
 ```
 
-Use `test` to run the TDD.
+Use `test` to run the tests.
 
 ```
 npm test

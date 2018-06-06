@@ -1,7 +1,6 @@
 version: '2'
 
 services:
-
   timefat:
     container_name: time-for-another-trip
     build:
@@ -13,7 +12,8 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=
+      
   stubby4j:
     container_name: stubby4j
     build: ./stubby4j
