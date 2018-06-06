@@ -100,7 +100,9 @@ class App extends Component {
       const response =  await fetch(`${hostname + Form.city}/year/${Form.year}`);
       const data = await response.json();
       const dataFiltered = await this.filterDataByWeather(data, Form.weather);
+      console.log(dataFiltered);
       const bestPeriod = await this.filterByBestPeriod(dataFiltered, Form.days, new Date());
+      console.log(bestPeriod);
       
       this.setState({
         filter: dataFiltered,
@@ -128,24 +130,23 @@ class App extends Component {
     for(let i = 0; i < data.length; i++){
       let Day = new Date(`${data[i].date}`);
       Day.setDate(Day.getDate() + 1);
-      let counter = 0;
 
       if(Day > today){
+        let counter = 0;
         let lastPeriodDay = new Date(Day);
         lastPeriodDay = new Date(lastPeriodDay.setDate(lastPeriodDay.getDate() + days));
 
         for(let t = i; t < data.length; t++){
-          console.log(counter);
 
-          if(Day <= lastPeriodDay && counter < days){
+          let thisDay = new Date (data[t].date);
+          thisDay.setDate(thisDay.getDate() + 1);
+
+          if(thisDay <= lastPeriodDay && counter < days){
             counter++;
-            if(counter > filter.finalCounter){
-              filter.finalCounter = counter;
-              filter.start = Day;
-              filter.end = lastPeriodDay;;
-            }
-          } else {
-            return filter;
+          } else if (counter > filter.finalCounter){
+            filter.finalCounter = counter;
+            filter.start = Day;
+            filter.end = lastPeriodDay;;
           }
 
         }

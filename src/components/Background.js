@@ -57,7 +57,7 @@ class Background extends React.Component {
         background: backgroundFile.src
       })
 
-      await setTimeout( () => {this.handleLoad()}, 500);
+      await setTimeout( () => {this.handleLoad()}, 1500);
 
     }
     catch(err) {
