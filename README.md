@@ -1,4 +1,4 @@
-# Time to Another Trip
+# Time for Another Trip
 
 Do you know when is the best time to take a vacation? 
 
@@ -14,9 +14,11 @@ Do you know when is the best time to take a vacation?
 
 
 ## Installing
-You have 2 ways to install this project in your system, the easy way and the "not so bad" way.
+There is 2 ways to run this project in your system, the easy way and the "not so bad" way.
 
 ### Easy way (Docker):
+You don't have to install `NodeJS` and `Java` to run the project in this way, all you have to do is install the [Docker](https://docs.docker.com/compose/install/)
+, clone/download the project to your system and run a single command line in your terminal.
 
 Clone or download de project to your system.
 ```
@@ -29,12 +31,12 @@ $ docker-compose up --build
 ```
 
 The docker will download all dependencies of the project and execute everything to you.
-When is finished, all you have to do is open your favorite browser and access `http://localhost:3000`.
+When is finished, open your favorite browser at `http://localhost:3000`.
 
 Voilà! 
 
 
-### Not so bad way (manually):
+### "Not so bad" way (manually):
 
 Access the project folder via terminal and run:
 ```
