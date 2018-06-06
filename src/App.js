@@ -123,12 +123,6 @@ class App extends Component {
     return data.filter( date => date.weather === weather);
   }
 
-
-
-
-
-
-
   filterByBestPeriod (data, days, today) {
 
     let filter = {finalCounter: 0}
@@ -154,6 +148,7 @@ class App extends Component {
             filter.start = Day;
             filter.end = lastPeriodDay;;
           }
+
         }
       }
     }
