@@ -67,7 +67,7 @@ If you have problems to execute the command above, you can change `backendHost` 
   //const backendHost = "https://time-for-another-trip-endpoint.herokuapp.com"
 
   const backendHost = () => {
-    if(getHostname === 'caiodesign.github.io') {
+    if(getHostname === 'time-for-another-trip.netlify.com') {
       return 'https://time-for-another-trip-endpoint.herokuapp.com';
     } else {
       return 'http://localhost:8882';
