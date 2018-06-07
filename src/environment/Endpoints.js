@@ -9,7 +9,7 @@ const getEndpoint = (location, url) =>{
   //const backendHost = "https://time-for-another-trip-endpoint.herokuapp.com"
 
   const backendHost = () => {
-    if(getHostname === 'sharp-saha-909c05.netlify.com') {
+    if(getHostname === 'time-for-another-trip.netlify.com') {
       return 'https://time-for-another-trip-endpoint.herokuapp.com';
     } else {
       return 'http://localhost:8882';

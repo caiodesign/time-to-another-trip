@@ -2,7 +2,7 @@
 
 Do you know when is the best time to take a vacation? 
 
-[Live Demo](https://sharp-saha-909c05.netlify.com/).
+[Live Demo](https://time-for-another-trip.netlify.com).
 
 ## Gettting Starded
 
