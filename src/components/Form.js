@@ -102,10 +102,17 @@ const CardRow = styled.div`
   margin-bottom: 30px;
 `
 
-const CardResult = CardForm.extend`
+const CardResult = styled.div`
+z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
   text-align: center;
   color: ${Color.white};
   @media(min-width: ${Breakpoint.desktop}){
+		idth: 600px;
     font-size: 26px;
   }
   span{
@@ -131,7 +138,7 @@ class Form extends React.Component {
   state = {
     weatherValidate: undefined
   }
-  
+
   setWeather (e) {
     this.setState({
       weatherValidate: e.target.value
@@ -139,51 +146,60 @@ class Form extends React.Component {
   }
 
   render(){
+		const {
+			getUserCityWeather,
+			getStateWeather,
+			getPeriod,
+			getUserCityData,
+			getStateCities,
+			refreshState
+		} = this.props
+
     return(
       <Card>
         <CardBackground>
-          <CardForm  className={!this.props.getPeriod.start ? "active" : "hidden"}>
-            <form onSubmit={this.props.getUserCityData}>
+          <CardForm  className={!getPeriod.start ? "active" : "hidden"}>
+            <form onSubmit={getUserCityData}>
                 <CardRow>
                   <Label>Where do you want to go?</Label>
-                  <Select name="userCity" required defaultValue={false} onChange={this.props.getUserCityWeather}>
+                  <Select name="userCity" required defaultValue={false} onChange={getUserCityWeather}>
                     <option value={false} disabled={true}>Specific city</option>
                     {
-                      this.props.getStateCities && this.props.getStateCities.map( (item) => {
+                      getStateCities && getStateCities.map( (item) => {
                         return <option key={item.woeid} value={item.woeid}>{item.district}</option>
                       })
                     }
                   </Select>
                 </CardRow>
-  
-                <CardRow className={this.props.getStateWeather ? "active" : "hidden"}>
+
+                <CardRow className={getStateWeather ? "active" : "hidden"}>
                   <Label>What kind of weather do you like?</Label>
                   <Select defaultValue={false} required name="userWeather" onChange={this.setWeather.bind(this)}>
                   <option value={false} disabled={true}>Choose weather</option>
                     {
-                      this.props.getStateWeather && this.props.getStateWeather.map( (item) => {
+                      getStateWeather && getStateWeather.map( (item) => {
                         return <option key={item}>{item}</option>
                       })
                     }
                   </Select>
                 </CardRow>
-  
+
                 <CardRow className={this.state.weatherValidate ? "active" : "hidden"}>
                   <Label>How many days?</Label>
                   <Input required type="number" name="userDays" min="1" max="90" defaultValue="1"/>
                 </CardRow>
-  
+
                 <FormSubmit className={this.state.weatherValidate ? "active" : "hidden"}>
                   <Button type="submit">Search</Button>
                 </FormSubmit>
-  
+
               </form>
           </CardForm>
-          <CardResult className={this.props.getPeriod.start ? "active" : "hidden"}>
-            {this.props.getPeriod.start && <p><span>Start:</span> {this.props.getPeriod.start}</p>}
-            {this.props.getPeriod.end && <p><span>End:</span> {this.props.getPeriod.end}</p>}
-            {this.props.getPeriod.counter && <p><span>{this.props.getPeriod.weather} days:</span> {this.props.getPeriod.counter}</p>}
-            <Button onClick={this.props.refreshState}>Search Again</Button>
+          <CardResult className={getPeriod.start ? "active" : "hidden"}>
+            {getPeriod.start && <p><span>{getPeriod.counter && 'Start:'}</span> {getPeriod.start}</p>}
+            {getPeriod.end && <p><span>{getPeriod.counter && 'End:'}</span> {getPeriod.end}</p>}
+            {getPeriod.counter && (<p><span>{getPeriod.weather} days:</span> {getPeriod.counter}</p>)}
+            <Button onClick={refreshState}>Search Again</Button>
           </CardResult>
         </CardBackground>
       </Card>

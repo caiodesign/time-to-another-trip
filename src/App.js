@@ -24,7 +24,7 @@ const TimeToAnotherTrip = styled.div`
 `
 
 class App extends Component {
-  
+
   state = {
     cities: undefined,
     weather: undefined,
@@ -61,13 +61,13 @@ class App extends Component {
   getCityWeather = async (e) => {
     const City = e.target.value;
     const Year = new Date().getFullYear();
-    
+
     if(City){
-      try { 
+      try {
         const response =  await fetch(`${getEndpoint('cities') + City}/year/${Year}`);
         const data = await response.json();
         const Weather = [...(new Set(data.map( day => day.weather)))];
-      
+
         this.setState({
           city: {
             weather: Weather
@@ -96,21 +96,25 @@ class App extends Component {
       days: Number(e.target.userDays.value)
     }
 
-    try { 
+    try {
       const response =  await fetch(`${hostname + Form.city}/year/${Form.year}`);
       const data = await response.json();
       const dataFiltered = await this.filterDataByWeather(data, Form.weather);
       console.log(dataFiltered);
       const bestPeriod = await this.filterByBestPeriod(dataFiltered, Form.days, new Date());
       console.log(bestPeriod);
-      
+
+			const start = (bestPeriod && bestPeriod.start) ? bestPeriod.start.toDateString(): 'no results found! try with another weather type.'
+			const end = (bestPeriod && bestPeriod.end) ? bestPeriod.end.toDateString() : ':('
+			const counter = (bestPeriod && bestPeriod.counter) ? bestPeriod.counter : false
+
       this.setState({
         filter: dataFiltered,
         period: {
-          weather: Form.weather,
-          start: bestPeriod.start.toDateString(),
-          end: bestPeriod.end.toDateString(),
-          counter: bestPeriod.finalCounter
+          start,
+          end,
+          counter,
+					weather: Form.weather,
         }
       })
     }
@@ -153,7 +157,7 @@ class App extends Component {
       }
     }
     return filter;
-  } 
+  }
 
   refreshApplication () {
     this.setState({
@@ -176,9 +180,9 @@ class App extends Component {
         <Preloader stopLoader={this.state.loaded} />
         <Background isLoaded={this.stopPreloader.bind(this)} />
           <Navbar getLogoAlt={`Time to Another Trip logo`} />
-          <Form 
-              getStateCities={this.state.cities} 
-              getStateWeather={this.state.city.weather} 
+          <Form
+              getStateCities={this.state.cities}
+              getStateWeather={this.state.city.weather}
               getUserCityData={this.getCityData.bind(this, getEndpoint('cities'))}
               getUserCityWeather={this.getCityWeather.bind(this)}
               getPeriod={this.state.period}
