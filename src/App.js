@@ -106,14 +106,16 @@ class App extends Component {
 
 			const start = (bestPeriod && bestPeriod.start) ? bestPeriod.start.toDateString(): 'no results found! try with another weather type.'
 			const end = (bestPeriod && bestPeriod.end) ? bestPeriod.end.toDateString() : ':('
-			const counter = (bestPeriod && bestPeriod.counter) ? bestPeriod.counter : false
+			const finalCounter = (bestPeriod && bestPeriod.finalCounter) ? bestPeriod.finalCounter : false
+
+			console.log(bestPeriod)
 
       this.setState({
         filter: dataFiltered,
         period: {
           start,
           end,
-          counter,
+          counter: finalCounter,
 					weather: Form.weather,
         }
       })
