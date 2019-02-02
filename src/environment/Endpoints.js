@@ -1,13 +1,6 @@
 const getEndpoint = (location, url) =>{
   const getHostname = window && window.location && window.location.hostname;
 
-  /** 
-   * CHANGE HERE IF YOU HAVE PROBLEMS TO CREATE YOUR OWN JAVA SERVER!
-   * DELETE THE BACKENDHOST CONST AND UNCOMMENT THE CODE BELLOW!
-  **/
-
-  //const backendHost = "https://time-for-another-trip-endpoint.herokuapp.com"
-
   const backendHost = () => {
     if(getHostname === 'time-for-another-trip.netlify.com') {
       return 'https://time-for-another-trip-endpoint.herokuapp.com';
